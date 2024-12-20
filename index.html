@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Creating Cards For Products</title>
+    <style>
+      body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: linear-gradient(135deg, #74b9ff, #81ecec);
+        color: #2d3436;
+      }
+
+      h1 {
+        text-align: center;
+        padding: 20px;
+        color: #ffffff;
+        text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+      }
+
+      #parent {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 20px;
+        padding: 20px;
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      #parent div {
+        background: #ffffff;
+        border-radius: 12px;
+        padding: 20px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        transition: transform 0.3s, box-shadow 0.3s;
+        animation: fadeIn 1s ease-out;
+      }
+
+      #parent div:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+      }
+
+      img {
+        width: 150px;
+        height: 150px;
+        border-radius: 8px;
+        margin: 10px 0;
+        transition: transform 0.3s;
+      }
+
+      img:hover {
+        transform: scale(1.1);
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      p {
+        margin: 10px 0;
+      }
+
+      b {
+        color: black;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="parent"></div>
+    <script>
+      let parent = document.getElementById("parent");
+
+      async function card() {
+        let apidata = await fetch(`https://fakestoreapi.com/products`);
+        // console.log(apidata)
+
+        let data = await apidata.json();
+        console.log(data);
+        data.map((val) => {
+          let d1 = document.createElement("div");
+          // d1.style.width = "200px"
+
+          // Category of Product
+          a1 = document.createElement("p");
+          a1.innerHTML = `<b>Category : </b> ${val.category}`;
+          d1.append(a1);
+
+          // Image of Product
+          a2 = document.createElement("img");
+          a2.src = val.image;
+          a2.style.height = "100px";
+          a2.style.width = "100px";
+          d1.append(a2);
+
+          // Price of Product
+          a3 = document.createElement("p");
+          a3.innerHTML = `<b>Price : $</b> ${val.price}`;
+          d1.append(a3);
+
+          // Description of Product
+          a4 = document.createElement("p");
+          a4.innerHTML = `<b>Rating : </b> ${val.rating.rate}`;
+          d1.append(a4);
+
+          parent.append(d1);
+        });
+      }
+      card();
+    </script>
+  </body>
+</html>
